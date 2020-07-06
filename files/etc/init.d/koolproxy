@@ -217,22 +217,6 @@ load_rules() {
 			;;
 		esac
 	done
-
-	local rulelist="$(uci -q get koolproxy.@global[0].thirdparty_rules)"
-	for rule in $rulelist
-	do
-		case "$rule" in
-			easylistchina.txt)
-				sed -i '5s/0/1/g' $KP_DIR/data/source.list
-			;;
-			chengfeng.txt)
-				sed -i '6s/0/1/g' $KP_DIR/data/source.list
-			;;
-			fanboy.txt)
-				sed -i '7s/0/1/g' $KP_DIR/data/source.list
-			;;
-		esac
-	done
 }
 
 get_mode_name() {
