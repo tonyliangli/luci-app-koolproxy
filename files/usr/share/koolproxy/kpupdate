@@ -81,7 +81,7 @@ update_rules() {
 	local file
 	local exrule
 	local name
-	sources=`head -4 $KP_DIR/data/source.list`
+	sources=`head -3 $KP_DIR/data/source.list`    # do not update custom rule
 	for source in $sources
 	do
 		OLD_IFS=$IFS    # save internal field separator
