@@ -77,6 +77,27 @@ __compare_file() {
 	return 1
 }
 
+update_rules() {
+	local file
+	local exrule
+	local name
+	sources=`head -4 $KP_DIR/data/source.list`
+	for source in $sources
+	do
+		OLD_IFS=$IFS    # save internal field separator
+		IFS="|"         # set it to '|'
+		set -- $source       # make the result positional parameters
+		IFS=$OLD_IFS    # restore IFS
+		file=$2
+		exrule=$3
+		name=$4
+		__compare_file "$name" "$KP_DIR/data/rules/$file" "$exrule"
+		if [ "$?" == "0" ]; then
+			RESTART_KOOLPROXY=true
+		fi
+	done
+}
+
 __update_rule() {
 	local name
 	local file
@@ -109,14 +130,14 @@ update_rss_rules() {
 
 update_adb_host() {
 	/usr/sbin/adblockplus >>$LOGFILE 2>&1 &
-	if [ "$?" == "0" ]; then
-		RESTART_DNSMASQ=true
-	fi
 }
 
 # main process
 init_env
 limit_log $LOGFILE
+
+# update rules
+update_rules
 
 # update user rules
 update_rss_rules
