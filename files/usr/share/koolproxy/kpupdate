@@ -92,10 +92,11 @@ update_rules() {
 		exrule=$3
 		name=$4
 		__compare_file "$name" "$KP_DIR/data/rules/$file" "$exrule"
-		if [ "$?" == "0" ]; then
-			RESTART_KOOLPROXY=true
-		fi
+# 		if [ "$?" == "0" ]; then
+# 			RESTART_KOOLPROXY=true
+# 		fi
 	done
+	RESTART_KOOLPROXY=true    # always restart koolproxy
 }
 
 __update_rule() {
